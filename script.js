@@ -1,31 +1,38 @@
 const ctx = new (window.AudioContext || window.webkitAudioContext)();
-let audio;
+// let audio;
 
-// first fetch the audio file, get it into a buffer then decode it
-fetch("./sounds/guitar.mp3")
-  //we need to put data into arrayBuffer to process as a node without latency
-  .then(data => data.arrayBuffer())
-  //we need to decode the data that is now in the buffer
-  .then(arrayBuffer => ctx.decodeAudioData(arrayBuffer))
-  .then(decodedAudio => {
-    audio = decodedAudio;
-  });
+// // first fetch the audio file, get it into a buffer then decode it
+// fetch("./sounds/guitar.mp3")
+//   //we need to put data into arrayBuffer to process as a node without latency
+//   .then(data => data.arrayBuffer())
+//   //we need to decode the data that is now in the buffer
+//   .then(arrayBuffer => ctx.decodeAudioData(arrayBuffer))
+//   .then(decodedAudio => {
+//     audio = decodedAudio;
+//   });
 
-//create a function so that we can actually use this audio
-function playback() {
-  const playSound = ctx.createBufferSource();
-  playSound.buffer = audio;
-  playSound.connect(ctx.destination);
-  playSound.start(ctx.currentTime);
-  playSound.stop(10);
-}
+// //create a function so that we can actually use this audio
+// function playback() {
+//   const playSound = ctx.createBufferSource();
+//   playSound.buffer = audio;
+//   playSound.connect(ctx.destination);
+//   playSound.start(ctx.currentTime);
+//   playSound.stop(10);
+// }
 
-window.addEventListener("mousedown", playback);
+// window.addEventListener("mousedown", playback);
 
-// const osc = ctx.createOscillator();
+const osc = ctx.createOscillator();
 
-// osc.connect(ctx.destination);
+osc.connect(ctx.destination);
 
 // osc.frequency.value = 600;
-// osc.start(0);
-// osc.stop(1);
+osc.start(0);
+osc.stop(1);
+
+const frequencyRange = document.querySelector('input')
+
+frequencyRange.addEventListener('input', (e) => {
+    console.log(e.target.value);
+    osc.frequency.value = e.target.value
+})
